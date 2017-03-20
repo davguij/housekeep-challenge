@@ -1,3 +1,7 @@
 <h1>
   {{title}}
 </h1>
+<div *ngFor="let calendarDay of calendarDays | async">
+  <h3>{{calendarDay.day}}</h3>
+  <p *ngFor="let startTime of calendarDay.startTimes">{{startTime.possible}}</p>
+</div>

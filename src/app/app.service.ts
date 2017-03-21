@@ -1,16 +1,31 @@
-import { Http } from '@angular/http';
+import { Http, URLSearchParams } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class AppService {
 
+  private apiUrl = 'https://private-anon-41c18bf6da-housekeepavailability.apiary-mock.com/';
+
   constructor(private http: Http) { }
 
-  getAvail() {
+  getAvail(searchOptions) {
+    // let params: URLSearchParams;
+    // params.set('weekBeginning', '2016-12-05');
+    // params.set('visitDuration', searchOptions.visitDuration);
+    // params.set('postcode', searchOptions.postcode);
     return this.http.get(
-      'https://private-anon-41c18bf6da-housekeepavailability.apiary-mock.com/availability/?weekBeginning=2016-12-05&visitDuration=2.5&postcode=EC1R%203BU'
-    ).map(response => response.json());
+      this.apiUrl + `availability/?weekBeginning=2016-12-05&visitDuration=${searchOptions.visitDuration}&postcode=${searchOptions.postcode}`)
+      .map(response => response.json())
+      .catch((err) => Observable.throw(err));
+  }
+
+  book(bookingOptions) {
+    return this.http.post(this.apiUrl + 'book/', bookingOptions)
+      .map(response => response.json())
+      .catch((err) => Observable.throw(err));
   }
 
 }

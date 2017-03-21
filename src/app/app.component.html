@@ -1,7 +1,23 @@
-<h1>
-  {{title}}
-</h1>
-<div *ngFor="let calendarDay of calendarDays | async">
-  <h3>{{calendarDay.day}}</h3>
-  <p *ngFor="let startTime of calendarDay.startTimes">{{startTime.possible}}</p>
+<form [formGroup]="searchOptions" (submit)="doSubmit()">
+  <label for="visitDuration">Visit duration in hours: </label>
+  <select formControlName="visitDuration" id="visitDuration">
+    <option *ngFor="let duration of durations" [value]="duration">{{duration}}</option>
+  </select>
+  <label for="postcode">Postcode: </label>
+  <input type="text" formControlName="postcode" id="postcode">
+  <button [disabled]="!searchOptions.valid" type="submit">Search</button>
+</form>
+<div *ngIf="!!selectedTimeSlot && !booking">
+  <p>Your selected time slot is on {{selectedTimeSlot.day}} from {{selectedTimeSlot.startTime.start}} to {{selectedTimeSlot.startTime.end}}.
+    <span class="action" (click)="book()">Book now!</span></p>
+</div>
+<div *ngIf="!!booking">
+  <p>Thank you! Your booking has been successful. Your cleaner will be {{booking.cleaner.name}}.</p>
+</div>
+<div *ngIf="!!calendarDays && !booking" class="flex_wrapper">
+  <div class="flex_column" *ngFor="let calendarDay of calendarDays">
+    <div class="calendar_day">{{calendarDay.day}}</div>
+    <div class="time_slot" [ngClass]="{'unavailable': !startTime.possible, 'available': startTime.possible}" *ngFor="let startTime of calendarDay.startTimes"
+      (click)="selectTimeSlot(calendarDay, startTime)">{{startTime.start}}<br />{{startTime.end}}</div>
+  </div>
 </div>

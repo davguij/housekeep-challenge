@@ -1,4 +1,21 @@
-# HousekeepChallenge
+# Housekeep Challenge
+
+## Information
+
+The project has been deployed to [https://davguij.github.io/housekeep-challenge/](https://davguij.github.io/housekeep-challenge/)
+
+
+The architecture of the project reflects the approach I normally use when building Angular 2 project architectures, though obviously at a smaller, simpler scale. 
+
+The project consists of:
+1) A single app component that holds the view and the data binding.
+2) A single app service that performs HTTP requests.
+
+One of the main highlights of Angular 2 are Observables. In the codebase, I've reflected the basic flow when dealing with them: basically, "mapping" and "catching" in the service, then "subscribing" in the component.
+
+It includes minimal styling. No unit or E2E tests have been implemented.
+
+---
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.24.
 
